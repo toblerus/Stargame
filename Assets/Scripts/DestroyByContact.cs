@@ -6,6 +6,21 @@ public class DestroyByContact : MonoBehaviour
 {
 	public GameObject explosion;
 	public GameObject playerExplosion;
+	public int scoreValue;
+	private GameController gameController; 
+
+	void Start ()
+	{
+		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
+		if (gameControllerObject != null) 
+		{
+			gameController = gameControllerObject.GetComponent<GameController> ();   //I would have referenced it in the inpector again, as always, but I am confused where gameControllerObject comes from
+		}
+		if (gameControllerObject == null) 
+		{
+			Debug.Log ("Can't find the 'GameController' script");		
+		}
+	}
 
 	void OnTriggerEnter(Collider other)
 	{
@@ -18,6 +33,7 @@ public class DestroyByContact : MonoBehaviour
 		{
 			Instantiate (playerExplosion, other.transform.position, other.transform.rotation);
 		}
+		gameController.AddScore (scoreValue);
 		Destroy (other.gameObject);
 		Destroy (gameObject);
 	}
